@@ -26,7 +26,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.bmi.viewmodels.BmiViewModel
 import java.text.DecimalFormat
+import androidx.compose.foundation.layout.Arrangement
 
 
 
@@ -49,56 +52,53 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Bmi ( modifier: Modifier = Modifier) {
-    var heightInput: String by remember {mutableStateOf("")}
-     var weightInput: String by remember { mutableStateOf("") }
-     val height = heightInput.toFloatOrNull() ?: 0.0f
-     val weight = weightInput.toIntOrNull() ?: 0
-     val formatter = DecimalFormat("0.00")
-     val bmi = if (weight > 0 && height > 0) formatter.format(weight / (height *
-      height)) else 0.0f
+fun Bmi ( modifier: Modifier = Modifier,
+bmiViewModel: BmiViewModel = viewModel()
+){
 
-    Column {
-        Text(
-            text = stringResource(R.string.body_mass_index),
-            fontSize = 24.sp,
-            color = MaterialTheme.colorScheme.primary,
-            textAlign = TextAlign.Center,
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp)
-        )
-        OutlinedTextField(
-            value = heightInput,
-            onValueChange = {heightInput = it.replace(',',',')},
-            label = {Text(stringResource(R.string.height))},
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number),
-              modifier = Modifier
-                  .fillMaxWidth()
-                  .padding(start = 8.dp, end = 8.dp)
-        )
-         OutlinedTextField(
-         value = weightInput,
-         onValueChange = {weightInput = it.replace(',','.')},
-         label = {Text(stringResource(R.string.weight))},
-         singleLine = true,
-         keyboardOptions = KeyboardOptions(
-         keyboardType = KeyboardType.Number),
-         modifier = Modifier
-             .fillMaxWidth()
-             .padding(start = 8.dp, end = 8.dp)
 
-         )
+    Column{
         Text(
-        text = stringResource(R.string.body_mass_index_is) + bmi,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, top = 16.dp)
-        )
-    }
-}
+                    text = stringResource(R.string.body_mass_index),
+                     fontSize = 24.sp,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
+                )
+
+                OutlinedTextField(
+                    value = bmiViewModel.heightInput,
+                    onValueChange = { bmiViewModel.heightInput = it.replace(',', '.') },
+                    label = { Text(stringResource(R.string.height)) },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp)
+                )
+
+                OutlinedTextField(
+                    value = bmiViewModel.weightInput,
+                    onValueChange = { bmiViewModel.weightInput = it.replace(',', '.') },
+                    label = { Text(stringResource(R.string.weight)) },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = Modifier.fillMaxWidth(). padding(start = 8.dp, end = 8.dp)
+                )
+
+                Text(
+                    text = stringResource(R.string.body_mass_index_is)+ " " + (bmiViewModel.bmi),
+                    modifier = Modifier.fillMaxWidth(). padding(start = 16.dp, top = 16.dp)
+                )
+            }
+        }
+
+
+
+
+
+
+
+
 
 @Preview(showBackground = true)
 @Composable
