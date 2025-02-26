@@ -59,7 +59,7 @@ bmiViewModel: BmiViewModel = viewModel()
 
     Column{
         Text(
-                    text = stringResource(R.string.body_mass_index),
+                    text = stringResource(R.string.bmi_calculator),
                      fontSize = 24.sp,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.primary,
@@ -86,7 +86,7 @@ bmiViewModel: BmiViewModel = viewModel()
                 )
 
                 Text(
-                    text = stringResource(R.string.body_mass_index_is)+ " " + (bmiViewModel.bmi),
+                    text = stringResource(R.string.your_bmi_is)+ " " + (bmiViewModel.bmi),
                     modifier = Modifier.fillMaxWidth(). padding(start = 16.dp, top = 16.dp)
                 )
             }
